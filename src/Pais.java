@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class Pais {
 	
 	private  ArrayList<NodesCiutatPrincipal> llistaCiutatPrincipal = new ArrayList<NodesCiutatPrincipal>();
+	private ArrayList<NodesL> rutaOptima = new ArrayList<NodesL>();
 	
 	public void LecturaDocument(String direccioDocument) throws FileNotFoundException, IOException {
 		System.out.println("ESQUEMA DE RUTES QUE ES DISPOSEN:");
@@ -99,7 +100,10 @@ public class Pais {
 		if(opcioTriadaOrigen==opcioTriadaDesti){
 			System.out.println("La ciutat origen i desti son la mateixa");
 		}else{
-			algoritmeEstrella(opcioTriadaOrigen,opcioTriadaDesti);
+			String nomOrigen=llistaCiutatPrincipal.get(opcioTriadaOrigen-1).getNomCiutat();
+			NodesL nodeTractament=new NodesL(nomOrigen,0,"");
+			String ruta=algoritmeEstrella(nodeTractament,opcioTriadaDesti);
+			System.out.println(ruta);
 		}
 		
 	}
@@ -110,12 +114,16 @@ public class Pais {
 		}
 		return false;
 	}
-	public void algoritmeEstrella(int origen, int desti){
-		String nomOrigen=llistaCiutatPrincipal.get(origen-1).getNomCiutat();
-		String nomDesti=llistaCiutatPrincipal.get(desti-1).getNomCiutat();
-		System.out.println(nomOrigen+"-"+nomDesti);
-		ArrayList<NodesCiutatPrincipal> rutaOptima = new ArrayList<NodesCiutatPrincipal>();
+	public String algoritmeEstrella(NodesL origen, int desti){
 		
+		String nomDesti=llistaCiutatPrincipal.get(desti-1).getNomCiutat();
+		String ruta = origen.getNom()+origen.getCost();
+		
+		
+		if(origen.getNom().equals(nomDesti)){
+			return ruta;
+		}
+		return ruta;
 		
 	}
 }
