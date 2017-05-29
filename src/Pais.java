@@ -7,7 +7,8 @@ import java.util.ArrayList;
 public class Pais {
 	
 	private  ArrayList<NodesCiutatPrincipal> llistaCiutatPrincipal = new ArrayList<NodesCiutatPrincipal>();
-	private ArrayList<NodesL> rutaOptima = new ArrayList<NodesL>();
+	//private ArrayList<NodesL> rutaOptima = new ArrayList<NodesL>();
+	String ruta="";
 	
 	public void LecturaDocument(String direccioDocument) throws FileNotFoundException, IOException {
 		System.out.println("ESQUEMA DE RUTES QUE ES DISPOSEN:");
@@ -100,10 +101,59 @@ public class Pais {
 		if(opcioTriadaOrigen==opcioTriadaDesti){
 			System.out.println("La ciutat origen i desti son la mateixa");
 		}else{
-			String nomOrigen=llistaCiutatPrincipal.get(opcioTriadaOrigen-1).getNomCiutat();
-			NodesL nodeTractament=new NodesL(nomOrigen,0,"");
-			String ruta=algoritmeEstrella(nodeTractament,opcioTriadaDesti);
-			System.out.println(ruta);
+			
+			ArrayList<NodesL> ciudades=null;
+			
+			
+			ciudades=new ArrayList<NodesL>();
+			
+			for(int i = 0; i < llistaCiutatPrincipal.size(); i++) {
+	
+				ciudades.add(new NodesL(llistaCiutatPrincipal.get(i).getNomCiutat()));
+			}
+			
+			for(int i = 0; i < ciudades.size(); i++) {
+				
+				
+					
+					ArrayList<NodesVeins> llistaVeins = llistaCiutatPrincipal.get(i).getLlistatVeins();
+			
+					
+					for(int y = 0; y < llistaVeins.size(); y++) {
+						
+						
+						NodesL nodeVei;
+						nodeVei=new NodesL(llistaVeins.get(y).getNomVei(),llistaVeins.get(y).getCost());
+						//System.out.println(ciudades.get(i).getName());
+						//System.out.println(nodeVei.getName()+nodeVei.getCost());
+						ciudades.get(i).addNextNode(nodeVei);
+						
+					}
+					/*System.out.println("Principa:"+ciudades.get(i).getName());
+					ArrayList<NodesL> llistaL = ciudades.get(i).getNextNodes();
+						for(int y = 0; y < llistaL.size(); y++) {
+						System.out.println(llistaL.get(y).getName());
+						
+					}*/
+				
+			}
+			
+			
+			//ciudades.get(0).addNextNode(ciudades.get(1));ciudades.get(0).addNextNode(ciudades.get(2));ciudades.get(1).addNextNode(ciudades.get(3));ciudades.get(1).addNextNode(ciudades.get(4));ciudades.get(1).addNextNode(ciudades.get(0));ciudades.get(2).addNextNode(ciudades.get(6));ciudades.get(2).addNextNode(ciudades.get(0));ciudades.get(3).addNextNode(ciudades.get(5));ciudades.get(3).addNextNode(ciudades.get(1));ciudades.get(4).addNextNode(ciudades.get(5));ciudades.get(4).addNextNode(ciudades.get(1));ciudades.get(5).addNextNode(ciudades.get(3));ciudades.get(5).addNextNode(ciudades.get(4));ciudades.get(5).addNextNode(ciudades.get(8));ciudades.get(5).addNextNode(ciudades.get(6));ciudades.get(6).addNextNode(ciudades.get(5));ciudades.get(6).addNextNode(ciudades.get(2));ciudades.get(6).addNextNode(ciudades.get(7));ciudades.get(7).addNextNode(ciudades.get(6));ciudades.get(8).addNextNode(ciudades.get(5));
+			
+			NodesL c1 = ciudades.get(opcioTriadaOrigen-1);
+			
+			String c2= ciudades.get(opcioTriadaDesti-1).getName();
+			ArrayList<NodesL> lista= c1.findShortesRoute(c2, c1);
+			
+			int costTotal=0;
+			for(int x =0 ; x<lista.size();x++){
+				costTotal=costTotal+lista.get(x).getCost();
+				System.out.println(lista.get(x).getName());
+			}
+			
+			System.out.println(costTotal);
+			
 		}
 		
 	}
@@ -114,16 +164,7 @@ public class Pais {
 		}
 		return false;
 	}
-	public String algoritmeEstrella(NodesL origen, int desti){
-		
-		String nomDesti=llistaCiutatPrincipal.get(desti-1).getNomCiutat();
-		String ruta = origen.getNom()+origen.getCost();
 		
 		
-		if(origen.getNom().equals(nomDesti)){
-			return ruta;
-		}
-		return ruta;
-		
-	}
+	
 }
