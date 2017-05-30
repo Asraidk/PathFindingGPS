@@ -1,5 +1,7 @@
 import java.util.ArrayList;
-
+//Clase per crear objecte que seran ciutat principal utilitzacio en la cartografia pares de fills nodes mes importants
+//metodes compresos entre get set i constructor unic metode rellevant com a tal
+//el pas de informacio de les ciutat i pasem aquesta per ser mostrades
 public class NodesCiutatPrincipal {
 	
 	private String nomCiutat;
